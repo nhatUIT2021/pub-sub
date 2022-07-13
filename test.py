@@ -1,11 +1,10 @@
-import os
-from google.cloud import pubsub_v1
+def implicit():
+    from google.cloud import storage
 
-publisher = pubsub_v1.PublisherClient()
-topic_name = 'projects/{project_id}/topics/{topic}'.format(
-    project_id=os.getenv('GOOGLE_CLOUD_PROJECT'),
-    topic='MY_TOPIC_NAME',  # Set this to something appropriate.
-)
-publisher.create_topic(name=topic_name)
-future = publisher.publish(topic_name, b'My first message!', spam='eggs')
-future.result()
+    # If you don't specify credentials when constructing the client, the
+    # client library will look for credentials in the environment.
+    storage_client = storage.Client()
+
+    # Make an authenticated API request
+    buckets = list(storage_client.list_buckets())
+    print(buckets)
